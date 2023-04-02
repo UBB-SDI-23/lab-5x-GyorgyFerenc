@@ -1,0 +1,5 @@
+SELECT Project.id, Count(Todo.id) from Project
+    join Todo on Todo.project_id = Project.id
+    where Todo.done
+    ordered by COUNT(Todo.id)
+
