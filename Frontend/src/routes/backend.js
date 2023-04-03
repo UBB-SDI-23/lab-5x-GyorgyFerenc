@@ -9,8 +9,8 @@
  * @property {number} age
  */
 
-// const link = "https://flask-api-381710.lm.r.appspot.com"
-const link = "http://127.0.0.1:5000"
+const link = "https://flask-api-381710.lm.r.appspot.com"
+// const link = "http://127.0.0.1:5000"
 
 /**
  * @returns {Promise<Person[]>}
