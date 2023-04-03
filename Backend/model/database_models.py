@@ -17,10 +17,10 @@ class Person(database.Model):
         }
     """
     id = database.Column(database.Integer, primary_key=True)
-    first_name = database.Column(database.String)
-    last_name = database.Column(database.String)
-    cnp = database.Column(database.String)
-    gender = database.Column(database.String)
+    first_name = database.Column(database.String(100))
+    last_name = database.Column(database.String(100))
+    cnp = database.Column(database.String(100))
+    gender = database.Column(database.String(100))
     age = database.Column(database.Integer)
 
 
@@ -41,10 +41,10 @@ class Project(database.Model):
     }
     """
     id = database.Column(database.Integer, primary_key=True)
-    name = database.Column(database.String)
-    description = database.Column(database.String)
-    start_date = database.Column(database.String)
-    end_date = database.Column(database.String)
+    name = database.Column(database.String(100))
+    description = database.Column(database.String(100))
+    start_date = database.Column(database.String(100))
+    end_date = database.Column(database.String(100))
     priority_level = database.Column(database.Integer)
 
 
@@ -66,8 +66,8 @@ class ProjectPerson(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     project_id = database.Column(database.Integer, ForeignKey(Project.id))
     person_id = database.Column(database.Integer, ForeignKey(Person.id))
-    role = database.Column(database.String)
-    date = database.Column(database.String)
+    role = database.Column(database.String(100))
+    date = database.Column(database.String(100))
 
 
 class ProjectPersonSchema(marshmallow.SQLAlchemyAutoSchema):
@@ -88,9 +88,9 @@ class Todo(database.Model):
         }
     """
     id = database.Column(database.Integer, primary_key=True)
-    name = database.Column(database.String)
-    description = database.Column(database.String)
-    deadline = database.Column(database.String)
+    name = database.Column(database.String(100))
+    description = database.Column(database.String(100))
+    deadline = database.Column(database.String(100))
     done = database.Column(database.Boolean)
     project_id = database.Column(database.Integer, ForeignKey(Project.id))
 

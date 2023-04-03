@@ -12,7 +12,8 @@ from resources.report_resource import *
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@34.65.213.59/flask_api"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 CORS(app)
 
 api = Api(app)

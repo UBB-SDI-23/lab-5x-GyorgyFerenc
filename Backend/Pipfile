@@ -15,6 +15,7 @@ pylint = "*"
 gunicorn = "*"
 flask-cors = "*"
 flask-swagger-ui = "*"
+mysqlclient = "*"
 
 [dev-packages]
 autopep8 = "*"
