@@ -1,11 +1,12 @@
 <script>
     import {
+        addPerson,
         filterPerson,
         getPerson,
         getPersons,
+        removePerson,
         updatePerson,
     } from "./backend.js";
-    import { onMount } from "svelte";
 
     export let data;
     let persons = data.persons;
@@ -27,11 +28,39 @@
         choosen = person;
     }
 
-    function update() {
-        updatePerson(choosen);
-        getPersons().then((per) => {
-            persons = per;
-        });
+    async function update() {
+        await updatePerson(choosen);
+        persons = await getPersons();
+    }
+    async function add() {
+        choosen.id = await addPerson(choosen);
+        console.log(choosen);
+        persons = await getPersons();
+    }
+    async function remove() {
+        await removePerson(choosen);
+        persons = await getPersons();
+    }
+
+    let sort_icon = "v";
+
+    function sortAge() {
+        if (sort_icon == "v") {
+            sortByAgeAscending();
+            sort_icon = "^";
+        } else if (sort_icon == "^") {
+            sortByAgeDescending();
+            sort_icon = "v";
+        }
+    }
+
+    function sortByAgeAscending() {
+        persons.sort((a, b) => a.age - b.age);
+        persons = persons;
+    }
+    function sortByAgeDescending() {
+        persons.sort((a, b) => b.age - a.age);
+        persons = persons;
     }
 </script>
 
@@ -42,16 +71,25 @@
         <input bind:value={choosen.cnp} />
         <input bind:value={choosen.gender} />
         <input bind:value={choosen.age} />
-        <button on:click={update}> update </button>
+        <button class="btn btn-light" on:click={add}> add </button>
+        <button class="btn btn-light" on:click={update}> update </button>
+        <button class="btn btn-light" on:click={remove}> remove </button>
     </div>
-    <input bind:value={age} />
+    <div>
+        age:
+        <input bind:value={age} />
+    </div>
     <table>
         <tr class="Description">
             <th> First Name </th>
             <th> Last Name </th>
             <th> CNP </th>
             <th> Gender </th>
-            <th> Age </th>
+            <th>
+                Age <button on:click={sortAge} class="sort btn btn-light"
+                    >{sort_icon}</button
+                ></th
+            >
         </tr>
         {#each persons as person}
             <tr on:click={() => personClicked(person)}>
@@ -66,17 +104,30 @@
 </section>
 
 <style>
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     table {
         border-collapse: collapse;
         border: 1px solid;
     }
-    tr:hover {
-        background-color: blue;
+    tr:hover:not(.Description) {
+        background-color: lightblue;
     }
     th {
         padding-right: 10px;
     }
     .Description {
         border-bottom: 1px solid black;
+    }
+    .person-inspector {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 </style>
