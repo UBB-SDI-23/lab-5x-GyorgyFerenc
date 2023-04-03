@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from repository.database import database
@@ -8,11 +9,30 @@ from resources.project_resource import *
 from resources.todo_resource import *
 from resources.project_preson_resource import *
 from resources.report_resource import *
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+CORS(app)
 
 api = Api(app)
+
+
+SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
+# Our API url (can of course be a local resource)
+API_URL = '/static/swagger.json'
+
+# Call factory function to create our blueprint
+swaggerui_blueprint = get_swaggerui_blueprint(
+    # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    SWAGGER_URL,
+    API_URL,
+    config={  # Swagger UI config overrides
+        'app_name': "Test application"
+    },
+)
+
+app.register_blueprint(swaggerui_blueprint)
 
 database.init_app(app)
 with app.app_context():
