@@ -16,6 +16,7 @@ gunicorn = "*"
 flask-cors = "*"
 flask-swagger-ui = "*"
 mysqlclient = "*"
+faker = "*"
 
 [dev-packages]
 autopep8 = "*"
