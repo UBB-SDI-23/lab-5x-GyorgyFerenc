@@ -21,6 +21,17 @@
 
     let choosen = persons[0];
 
+    if (persons.length == 0) {
+        choosen = {
+            id: 1,
+            first_name: "",
+            last_name: "",
+            age: 0,
+            cnp: "",
+            gender: "male",
+        };
+    }
+
     /**
      * @param {import('./backend').Person} person
      */
@@ -33,6 +44,7 @@
         persons = await getPersons();
     }
     async function add() {
+        if (!validate_person(choosen)) return;
         choosen.id = await addPerson(choosen);
         console.log(choosen);
         persons = await getPersons();
@@ -62,6 +74,37 @@
         persons.sort((a, b) => b.age - a.age);
         persons = persons;
     }
+
+    const ErrorState = {
+        none: 0,
+        cnp: 1,
+        gender: 2,
+        age: 3,
+    };
+
+    let error_state = ErrorState.none;
+
+    /**
+     * @param {import('./backend').Person} person
+     */
+    function validate_person(person) {
+        if (person.cnp.length != 13) {
+            error_state = ErrorState.cnp;
+            return false;
+        }
+
+        if (!["male", "female"].includes(person.gender)) {
+            error_state = ErrorState.gender;
+            return false;
+        }
+
+        if (person.age <= 0 || person.age > 120) {
+            error_state = ErrorState.age;
+            return false;
+        }
+        error_state = ErrorState.none;
+        return true;
+    }
 </script>
 
 <section>
@@ -71,6 +114,13 @@
         <input bind:value={choosen.cnp} />
         <input bind:value={choosen.gender} />
         <input bind:value={choosen.age} />
+        {#if error_state == ErrorState.age}
+            Error: age is not in range (0, 120]
+        {:else if error_state == ErrorState.gender}
+            Error: gender must be male or female
+        {:else if error_state == ErrorState.cnp}
+            Error: cnp must have a length of 13
+        {/if}
         <button class="btn btn-light" on:click={add}> add </button>
         <button class="btn btn-light" on:click={update}> update </button>
         <button class="btn btn-light" on:click={remove}> remove </button>
@@ -129,5 +179,8 @@
         align-items: center;
         margin-top: 10px;
         margin-bottom: 10px;
+    }
+    .hide {
+        display: none;
     }
 </style>

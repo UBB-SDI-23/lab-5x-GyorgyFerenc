@@ -22,7 +22,7 @@ export async function getPersons() {
 
     let text = await p.text();
     let ob = JSON.parse(text);
-    console.log(ob);
+    // console.log(ob);
 
     return ob["persons"];
 }
@@ -119,6 +119,7 @@ export async function addPerson(person) {
     let p = await fetch(`${link}/person/`, requestOptions)
     let text = await p.text();
     let ob = JSON.parse(text);
+    console.log(ob);
 
     return ob["id"];
 }
