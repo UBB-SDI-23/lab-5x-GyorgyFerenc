@@ -19,13 +19,11 @@ CORS(app)
 api = Api(app)
 
 
-SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
-# Our API url (can of course be a local resource)
+SWAGGER_URL = '/api/docs'
 API_URL = '/static/swagger.json'
 
 # Call factory function to create our blueprint
 swaggerui_blueprint = get_swaggerui_blueprint(
-    # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
     SWAGGER_URL,
     API_URL,
     config={  # Swagger UI config overrides

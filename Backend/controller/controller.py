@@ -38,7 +38,10 @@ class Controller:
 
     def add_project(self, project: dict) -> int:
         project = Project(name=project["name"],
-                          description=project["description"])
+                          description=project["description"],
+                          start_date=project["start_date"],
+                          end_date=project["end_date"],
+                          priority_level=project["priority_level"],)
         return self.__add(project)
 
     def add_todo(self, todo: dict) -> int:
@@ -73,7 +76,7 @@ class Controller:
         result = database.session.execute(select).all()
         return self.__create_list_from_result(result)
 
-    def report_projects_by_number_of_done_todos(self) -> list[Todo]:
+    def report_projects_by_number_of_done_todos(self):
         count = database.func.count
         select = database.select(Project, count(Todo.id)).join(Todo).where(Todo.done) \
             .group_by(Project) \
