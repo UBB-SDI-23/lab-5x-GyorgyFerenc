@@ -61,6 +61,9 @@ class Controller:
 
     def remove_project(self, id: int):
         self.__remove(Project, id)
+        
+    def remove_project_person(self, id: int):
+        self.__remove(ProjectPerson, id)
 
     def update_person(self, id, person: dict):
         self.__update(Person, id,  person)

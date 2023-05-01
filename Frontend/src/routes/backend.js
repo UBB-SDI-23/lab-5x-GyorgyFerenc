@@ -9,6 +9,38 @@
  * @property {number} age
  */
 
+/**
+ * @typedef Project
+ * @type {object}
+ * @property {number} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string} start_date
+ * @property {string} end_date
+ * @property {number} priority_level
+ */
+
+/**
+ * @typedef Todo
+ * @type {object}
+ * @property {number} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string} deadline
+ * @property {boolean} done
+ * @property {number} project_id
+ */
+
+/**
+ * @typedef ProjectPerson
+ * @type {object}
+ * @property {number} id
+ * @property {number} project_id
+ * @property {number} person_id
+ * @property {string} role
+ * @property {string} date
+ */
+
 const link = "https://flask-api-381710.lm.r.appspot.com"
 // const link = "http://127.0.0.1:5000"
 
@@ -22,10 +54,10 @@ export async function getPersons() {
 
     let text = await p.text();
     let ob = JSON.parse(text);
-    // console.log(ob);
 
     return ob["persons"];
 }
+
 
 /**
  * @param {number} id
@@ -65,7 +97,6 @@ export async function updatePerson(person) {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify(person);
-    console.log(raw);
 
     var requestOptions = {
         method: 'PATCH',
@@ -86,7 +117,6 @@ export async function removePerson(person) {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify(person);
-    console.log(raw);
 
     var requestOptions = {
         method: 'DELETE',
@@ -108,7 +138,6 @@ export async function addPerson(person) {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify(person);
-    console.log(raw);
 
     var requestOptions = {
         method: 'PUT',
@@ -119,8 +148,241 @@ export async function addPerson(person) {
     let p = await fetch(`${link}/person/`, requestOptions)
     let text = await p.text();
     let ob = JSON.parse(text);
-    console.log(ob);
 
     return ob["id"];
 }
 
+
+/**
+ * @returns {Promise<Project[]>}
+ */
+export async function getProjects() {
+    let p = await fetch(
+        `${link}/project/`
+    );
+
+    let text = await p.text();
+    let ob = JSON.parse(text);
+    return ob;
+}
+
+
+/**
+ * @param {Project} project
+ * @returns {Promise<number>}
+*/
+export async function addProject(project) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(project);
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    let p = await fetch(`${link}/project/`, requestOptions)
+    let text = await p.text();
+    let ob = JSON.parse(text);
+
+    return ob["id"];
+
+}
+
+/**
+ * @param {Project} project
+*/
+export async function removeProject(project) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(project);
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(`${link}/project/${project.id}`, requestOptions)
+        .catch(error => console.log('error', error));
+}
+
+/**
+ * @param {Project} project
+*/
+export async function updateProject(project) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(project);
+
+    var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(`${link}/project/${project.id}`, requestOptions)
+        .catch(error => console.log('error', error));
+}
+
+/**
+ * @returns {Promise<Todo[]>}
+ */
+export async function getTodos() {
+    let p = await fetch(
+        `${link}/todo/`
+    );
+
+    let text = await p.text();
+    let ob = JSON.parse(text);
+
+    return ob["todos"];
+}
+
+/**
+ * @param {Todo} todo
+ * @returns {Promise<number>}
+*/
+export async function addTodo(todo) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(todo);
+    console.log(raw);
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    let p = await fetch(`${link}/todo/`, requestOptions)
+    let text = await p.text();
+    let ob = JSON.parse(text);
+
+    return ob["id"];
+}
+
+/**
+ * @param {Todo} todo
+*/
+export async function removeTodo(todo) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(todo);
+    console.log(raw);
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(`${link}/todo/${todo.id}`, requestOptions)
+        .catch(error => console.log('error', error));
+}
+
+/**
+ * @param {Todo} todo
+*/
+export async function updateTodo(todo) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(todo);
+    console.log(raw);
+
+    var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(`${link}/todo/${todo.id}`, requestOptions)
+        .catch(error => console.log('error', error));
+}
+
+/**
+ * @param {ProjectPerson} project_person
+ * @returns {Promise<number>}
+*/
+export async function addProjectPerson(project_person) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(project_person);
+    console.log(raw);
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    let p = await fetch(`${link}/project-person/`, requestOptions)
+    let text = await p.text();
+    let ob = JSON.parse(text);
+
+    return ob["id"];
+}
+
+/**
+ * @returns {Promise<ProjectPerson[]>}
+ */
+export async function getProjectPersons() {
+    let p = await fetch(
+        `${link}/project-person/`
+    );
+
+    let text = await p.text();
+    let ob = JSON.parse(text);
+
+    // console.log(ob);
+
+    return ob;
+}
+
+/**
+ * @param {ProjectPerson} project_person
+*/
+export async function removeProjectPerson(project_person) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(project_person);
+    console.log(raw);
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(`${link}/project-person/${project_person.id}`, requestOptions)
+        .catch(error => console.log('error', error));
+}
+
+/**
+ * @param {ProjectPerson} project_person
+*/
+export async function updateProjectPerson(project_person) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(project_person);
+    console.log(raw);
+
+    var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(`${link}/project-person/${project_person.id}`, requestOptions)
+        .catch(error => console.log('error', error));
+}

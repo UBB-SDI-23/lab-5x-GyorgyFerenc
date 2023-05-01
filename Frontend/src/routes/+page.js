@@ -1,4 +1,4 @@
-import { getPersons } from "./backend.js";
+import { getPersons, getProjectPersons, getProjects, getTodos } from "./backend.js";
 
 export const ssr = false;
 
@@ -6,6 +6,9 @@ export const ssr = false;
 export async function load({ params }) {
     let data = {
         persons: getPersons(),
+        projects: getProjects(),
+        todos: getTodos(),
+        project_persons: getProjectPersons(),
     };
 
     return data;
