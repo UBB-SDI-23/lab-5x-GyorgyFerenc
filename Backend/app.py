@@ -38,28 +38,27 @@ with app.app_context():
     database.create_all()
 
 # Adding routes
-api.add_resource(PersonList, "/person/")
+api.add_resource(PersonList, "/person/<int:page_size>/<int:page_number>")
 api.add_resource(PersonAdd, "/person/")
 api.add_resource(PersonGet, "/person/<int:id>")
 api.add_resource(PersonRemove, "/person/<int:id>")
 api.add_resource(PersonUpdate, "/person/<int:id>")
 api.add_resource(PersonFilter, "/person/filter/<int:age>")
 
-api.add_resource(ProjectList, "/project/")
+api.add_resource(ProjectList, "/project/<int:page_size>/<int:page_number>")
 api.add_resource(ProjectGet, "/project/<int:id>")
 api.add_resource(ProjectAdd, "/project/")
 api.add_resource(ProjectRemove, "/project/<int:id>")
 api.add_resource(ProjectUpdate, "/project/<int:id>")
 api.add_resource(ProjectTodoBulk, "/project/<int:id>/todo")
 
-api.add_resource(ProjectPersonList, "/project-person/")
+api.add_resource(ProjectPersonList, "/project-person/<int:page_size>/<int:page_number>")
 api.add_resource(ProjectPersonGet, "/project-person/<int:id>")
 api.add_resource(ProjectPersonAdd, "/project-person/")
 api.add_resource(ProjectPersonRemove, "/project-person/<int:id>")
 api.add_resource(ProjectPersonUpdate, "/project-person/<int:id>")
 
-
-api.add_resource(TodoList, "/todo/")
+api.add_resource(TodoList, "/todo/<int:page_size>/<int:page_number>")
 api.add_resource(TodoAdd, "/todo/")
 api.add_resource(TodoGet, "/todo/<int:id>")
 api.add_resource(TodoRemove, "/todo/<int:id>")

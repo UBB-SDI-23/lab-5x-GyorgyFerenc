@@ -11,8 +11,8 @@ class TodoList(Resource):
         {"todos" : [todo...]}
     """
 
-    def get(self):
-        list = controller.get_all_todos()
+    def get(self,page_size,page_number):
+        list = controller.get_all_todos(page_size,page_number)
         list_json = TodoSchema(many=True).dump(list)
         return {"todos": list_json}, StatusCode.OK
 

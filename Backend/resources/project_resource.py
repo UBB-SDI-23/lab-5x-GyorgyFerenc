@@ -12,10 +12,9 @@ class ProjectList(Resource):
         {"projects" : [project...]}
     """
 
-    def get(self):
-        list = controller.get_all_projects()
+    def get(self,page_size,page_number):
+        list = controller.get_all_projects(page_size,page_number)
         list_json = ProjectSchema(many=True).dump(list)
-        print(list_json)
         return list_json, StatusCode.OK
 
 
@@ -53,7 +52,6 @@ class ProjectAdd(Resource):
 
     def put(self):
         person = project_parser.parse_args()
-        print(person)
         id = controller.add_project(person)
         return {"id": id}, StatusCode.OK
 

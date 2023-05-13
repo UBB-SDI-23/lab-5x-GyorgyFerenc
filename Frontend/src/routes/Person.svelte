@@ -3,7 +3,6 @@
         addPerson,
         addProject,
         addProjectPerson,
-        addTodo,
         filterPerson,
         getPersons,
         removePerson,
@@ -11,6 +10,9 @@
     } from "./backend.js";
 
     export let data;
+
+    const page_size = 10;
+    let page_number = 0;
 
     /**
      * @type {import('./backend').Person[]}
@@ -48,12 +50,12 @@
     async function update() {
         if (!validate_person(choosen)) return;
         await updatePerson(choosen);
-        persons = await getPersons();
+        persons = await getPersons(page_size, page_number);
     }
     async function add() {
         if (!validate_person(choosen)) return;
         choosen.id = await addPerson(choosen);
-        persons = await getPersons();
+        persons = await getPersons(page_size, page_number);
 
         for (let wrapper of wrappers) {
             wrapper.project.id = await addProject(wrapper.project);
@@ -64,7 +66,7 @@
     }
     async function remove() {
         await removePerson(choosen);
-        persons = await getPersons();
+        persons = await getPersons(page_size, page_number);
     }
 
     let sort_icon = "v";
@@ -157,7 +159,7 @@
         <button
             class="btn btn-light"
             on:click={async () => {
-                persons = await getPersons();
+                persons = await getPersons(page_size, page_number);
             }}
         >
             refresh

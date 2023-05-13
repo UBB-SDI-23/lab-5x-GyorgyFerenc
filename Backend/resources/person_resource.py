@@ -3,7 +3,6 @@ from flask_restful import Resource, reqparse
 import model.status_codes as StatusCode
 from controller.controller import controller
 
-
 class PersonList(Resource):
     """
         Returns a list of persons
@@ -11,8 +10,8 @@ class PersonList(Resource):
         {"persons" : [person...]}
     """
 
-    def get(self):
-        list = controller.get_all_persons()
+    def get(self,page_size,page_number):
+        list = controller.get_all_persons(page_size,page_number)
         list_json = PersonSchema(many=True).dump(list)
         return {"persons": list_json}, StatusCode.OK
 

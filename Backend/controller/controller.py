@@ -5,17 +5,17 @@ from repository.database import database
 
 class Controller:
 
-    def get_all_persons(self) -> list[Person]:
-        return self.__get_all(Person)
+    def get_all_persons(self,page_size,page_number) -> list[Person]:
+        return self.__get_all(Person,page_size,page_number)
 
-    def get_all_projects(self) -> list[Project]:
-        return self.__get_all(Project)
+    def get_all_projects(self,page_size,page_number) -> list[Project]:
+        return self.__get_all(Project,page_size,page_number)
 
-    def get_all_todos(self) -> list[Todo]:
-        return self.__get_all(Todo)
+    def get_all_todos(self,page_size,page_number) -> list[Todo]:
+        return self.__get_all(Todo,page_size,page_number)
 
-    def get_all_project_persons(self) -> list[Todo]:
-        return self.__get_all(ProjectPerson)
+    def get_all_project_persons(self,page_size,page_number) -> list[Todo]:
+        return self.__get_all(ProjectPerson,page_size,page_number)
 
     def get_person(self, id: int) -> Person:
         return self.__get(Person, id)
@@ -100,8 +100,9 @@ class Controller:
         result = database.session.execute(select).all()
         return self.__create_list_from_result(result)
 
-    def __get_all(self, type) -> list:
-        select = database.select(type)
+    def __get_all(self, type,page_size:int, page_number:int) -> list:
+        offset = page_size * page_number
+        select = database.select(type).offset(offset).limit(page_size)
         result = database.session.execute(select).all()
         items = self.__create_list_from_result(result)
         return items

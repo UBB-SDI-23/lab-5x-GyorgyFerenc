@@ -11,8 +11,8 @@ class ProjectPersonList(Resource):
         {"project_persons" : [project_person...]}
     """
 
-    def get(self):
-        list = controller.get_all_project_persons()
+    def get(self,page_size,page_number):
+        list = controller.get_all_project_persons(page_size,page_number)
         list_json = ProjectPersonSchema(many=True).dump(list)
         return list_json, StatusCode.OK
 
