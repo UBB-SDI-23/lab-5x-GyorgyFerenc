@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from repository.database import database
 from model.database_models import *
@@ -12,12 +11,11 @@ from resources.report_resource import *
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@34.65.213.59/flask_api"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:mocsokhackerek@34.65.213.59/flask_api"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 CORS(app)
 
 api = Api(app)
-
 
 SWAGGER_URL = '/api/docs'
 API_URL = '/static/swagger.json'
