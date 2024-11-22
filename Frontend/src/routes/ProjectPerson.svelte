@@ -8,6 +8,9 @@
 
     export let data;
 
+    const page_size = 10;
+    let page_number = 0;
+
     /**
      * @type {import('./backend').ProjectPerson[]}
      */
@@ -33,15 +36,15 @@
     }
     async function update() {
         await updateProjectPerson(choosen);
-        person_projects = await getProjectPersons();
+        person_projects = await getProjectPersons(page_size, page_number);
     }
     async function add() {
         choosen.id = await addProjectPerson(choosen);
-        person_projects = await getProjectPersons();
+        person_projects = await getProjectPersons(page_size, page_number);
     }
     async function remove() {
         await removeProjectPerson(choosen);
-        person_projects = await getProjectPersons();
+        person_projects = await getProjectPersons(page_size, page_number);
     }
 </script>
 
@@ -58,7 +61,10 @@
         <button
             class="btn btn-light"
             on:click={async () => {
-                person_projects = await getProjectPersons();
+                person_projects = await getProjectPersons(
+                    page_size,
+                    page_number
+                );
             }}
         >
             refresh

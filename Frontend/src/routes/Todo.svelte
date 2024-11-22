@@ -3,6 +3,9 @@
 
     export let data;
 
+    const page_size = 10;
+    let page_number = 0;
+
     /**
      * @type {import('./backend').Todo[]}
      */
@@ -29,16 +32,16 @@
     }
     async function update() {
         await updateTodo(choosen);
-        todos = await getTodos();
+        todos = await getTodos(page_size, page_number);
     }
     async function add() {
         choosen.id = await addTodo(choosen);
         console.log(choosen);
-        todos = await getTodos();
+        todos = await getTodos(page_size, page_number);
     }
     async function remove() {
         await removeTodo(choosen);
-        todos = await getTodos();
+        todos = await getTodos(page_size, page_number);
     }
 </script>
 
@@ -56,7 +59,7 @@
         <button
             class="btn btn-light"
             on:click={async () => {
-                todos = await getTodos();
+                todos = await getTodos(page_size, page_number);
             }}
         >
             refresh

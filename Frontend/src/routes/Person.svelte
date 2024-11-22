@@ -189,6 +189,25 @@
         >
             add project
         </button>
+        <button
+            class="btn btn-light"
+            on:click={async () => {
+                page_number++;
+                persons = await getPersons(page_size, page_number);
+            }}
+        >
+            next page
+        </button>
+        <button
+            class="btn btn-light"
+            on:click={async () => {
+                page_number--;
+                if (page_number < 0) page_number = 0;
+                persons = await getPersons(page_size, page_number);
+            }}
+        >
+            previous page
+        </button>
     </div>
 
     {#each wrappers as wrapper}

@@ -10,6 +10,9 @@
 
     export let data;
 
+    const page_size = 10;
+    let page_number = 0;
+
     /**
      * @type {import('./backend').Project[]}
      */
@@ -37,11 +40,11 @@
 
     async function update() {
         await updateProject(choosen);
-        projects = await getProjects();
+        projects = await getProjects(page_size, page_number);
     }
     async function add() {
         choosen.id = await addProject(choosen);
-        projects = await getProjects();
+        projects = await getProjects(page_size, page_number);
 
         for (let wrapper of wrappers) {
             wrapper.person.id = await addPerson(wrapper.person);
@@ -52,7 +55,7 @@
     }
     async function remove() {
         await removeProject(choosen);
-        projects = await getProjects();
+        projects = await getProjects(page_size, page_number);
     }
 
     /**
@@ -88,7 +91,7 @@
         <button
             class="btn btn-light"
             on:click={async () => {
-                projects = await getProjects();
+                projects = await getProjects(page_size, page_number);
             }}
         >
             refresh
